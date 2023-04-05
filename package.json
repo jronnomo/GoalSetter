@@ -1,0 +1,29 @@
+{
+  "name": "goalsetter",
+  "version": "1.0.0",
+  "description": "Goal Setter MERN application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jronnomo/GoalSetter.git"
+  },
+  "author": "Jerry Ronnau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jronnomo/GoalSetter/issues"
+  },
+  "homepage": "https://github.com/jronnomo/GoalSetter#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
