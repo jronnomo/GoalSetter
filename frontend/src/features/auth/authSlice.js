@@ -57,6 +57,7 @@ export const authSlice = createSlice({
   //syncronous reducers
   reducers: {
     //resets state to default value
+    //can't just set to initialState because we need the user property to persist
     reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
