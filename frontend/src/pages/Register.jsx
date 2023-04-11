@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react';
+// useSelector - select something from the state, such as user, isLoading, etc.
+// useDispatch - if we want to dispatch a function like the Thunk register or reset reducer
+import { useSelector, useDispatch } from 'react-redux';
+//For redirecting
+import { useNavigate } from 'react-router-dom';
+//For alerts
+import { toast } from 'react-toastify';
 import { FaUser } from 'react-icons/fa';
+import { register, reset } from '../features/auth/authSlice';
+import Spinner from '../components/Spinner';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -11,6 +20,30 @@ function Register() {
 
   const { name, email, password, password2 } = formData;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  //Distructuring the variables that we're grabbing from our auth state
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(
+    () => {
+      if (isError) {
+        toast.error(message);
+      }
+      //either there'll be a successful login, or the user is already logged in
+      if (isSuccess || user) {
+        navigate('/');
+      }
+
+      dispatch(reset());
+    },
+    //Dependency array - we watch for changes on any of these states
+    [user, isError, isSuccess, message, navigate, dispatch]
+  );
+
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -20,7 +53,24 @@ function Register() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    //Check for password match
+    if (password !== password2) {
+      toast.error('Passwords do not match');
+    } else {
+      //set our variables coming from the form
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      //run our register function from authSlice Thunk function and pass in our form data
+      dispatch(register(userData));
+    }
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
